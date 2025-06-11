@@ -8,6 +8,49 @@ const MovieDetailModal = ({api:{API_BASE_URL, API_OPTIONS}, setIsModalOpen, movi
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const movieData = [
+        {
+            title: "Genre",
+            value:  movieDetails?.genres?.map(g => g.name)
+        },
+        {
+            title: "Overview",
+            value:  movieDetails?.overview
+        },
+        {
+            title: "Release date",
+            value:  `${new Date(movieDetails?.release_date).toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric"})}`
+        },
+        {
+            title: "Countries",
+            value: movieDetails?.production_countries?.map(c => c.name)
+        },
+        {
+            title: "Status",
+            value: movieDetails?.status
+        },
+        {
+            title: "Spoken languages",
+            value: movieDetails?.spoken_languages?.map(l => l.english_name)
+        },
+        {
+            title: "Budget",
+            value:  `$${formatNumber(movieDetails?.budget)}`
+        },
+        {
+            title: "Revenue",
+            value:  `$${formatNumber(movieDetails?.revenue)}`
+        },
+        {
+            title: "Tagline",
+            value:  movieDetails?.tagline
+        },
+        {
+            title: "Production companies",
+            value: movieDetails?.production_companies?.map(c => c.name)
+        }
+    ]
+
     function formatNumber(num) {
         if (num >= 1_000_000_000) {
             return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
@@ -19,6 +62,11 @@ const MovieDetailModal = ({api:{API_BASE_URL, API_OPTIONS}, setIsModalOpen, movi
             return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
         }
         return num;
+    }
+
+    function autoScrollUp() {
+        const modal = document.querySelector('.movie-detail');
+        modal?.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     const fetchMovieDetails = async () => {
@@ -75,7 +123,7 @@ const MovieDetailModal = ({api:{API_BASE_URL, API_OPTIONS}, setIsModalOpen, movi
         setIsLoading(true);
         setErrorMessage('');
         try {
-            const endpoint = `${API_BASE_URL}/movie/${movie.id}/recommendations`;
+            const endpoint = `${API_BASE_URL}/movie/${movieId}/recommendations`;
             const response = await fetch(endpoint, API_OPTIONS);
             if (!response.ok){
                 throw new Error('Failed to fetch recommended movies.');
@@ -104,50 +152,6 @@ const MovieDetailModal = ({api:{API_BASE_URL, API_OPTIONS}, setIsModalOpen, movi
             getRecommendedMovies();
         }
     }, [movieId]);
-    console.log('movieDetails', movieDetails)
-
-    const movieData = [
-        {
-            title: "Genre",
-            value:  movieDetails?.genres?.map(g => g.name)
-        },
-        {
-            title: "Overview",
-            value:  movieDetails?.overview
-        },
-        {
-            title: "Release date",
-            value:  `${movieDetails?.release_date?.split('-')[0]} • ${Math.trunc(movieDetails?.runtime/60)}h ${movieDetails?.runtime%60}min`
-        },
-        {
-            title: "Countries",
-            value: movieDetails?.production_countries?.map(c => c.name)
-        },
-        {
-            title: "Status",
-            value: movieDetails?.status
-        },
-        {
-            title: "Spoken languages",
-            value: movieDetails?.spoken_languages?.map(l => l.english_name)
-        },
-        {
-            title: "Budget",
-            value:  `$${formatNumber(movieDetails?.budget)}`
-        },
-        {
-            title: "Revenue",
-            value:  `$${formatNumber(movieDetails?.revenue)}`
-        },
-        {
-            title: "Tagline",
-            value:  movieDetails?.tagline
-        },
-        {
-            title: "Production companies",
-            value: movieDetails?.production_companies?.map(c => c.name)
-        }
-    ]
 
     return (
         <div className="movie-detail">
@@ -175,42 +179,51 @@ const MovieDetailModal = ({api:{API_BASE_URL, API_OPTIONS}, setIsModalOpen, movi
                 <div className="movie-description">
                     {
                         movieData.map(data => (
-                            <div className="movie-data" key={data.title}>
-                                <h3 className="description-title">{data.title}</h3>
-                                {
-                                    Array.isArray(data.value)
-                                    ? (
-                                        data.title === "Genre" ? (
-                                            <div className="flex gap-2 flex-wrap">
-                                                {data.value.map(genre => <p key={genre} className="btn-style">{genre}</p>)}
-                                            </div>
-                                        ) : <p className="description-text">{data.value.join('• ')}</p>
-                                      ) : data.value
-                                }
-                            </div>
+                            (data.value !== "$0" && data.value !== "") && (
+                                <div className="movie-data" key={data.title}>
+                                    <h3 className="description-title">{data.title}</h3>
+                                    {
+                                        Array.isArray(data.value)
+                                            ? (
+                                                data.title === "Genre" ? (
+                                                    <div className="w-full flex items-center justify-between">
+                                                        <div className="flex gap-2">
+                                                            {data.value.map(genre => <p key={genre} className="btn-style">{genre}</p>)}
+                                                        </div>
+                                                        {movieDetails?.homepage && (<a href={movieDetails?.homepage} target="_blank" rel="noopener noreferrer">Visit Homepage</a>)}
+                                                    </div>
+                                                ) : <p className="description-text">{data.value.join(' • ')}</p>
+                                            ) : <p className={data.title !== "Overview" ? "description-text" : ""}>{data.value}</p>
+                                    }
+
+                                </div>
+                            )
                         ))
                     }
                 </div>
             </section>
-            {/*{*/}
-            {/*    isLoading ? <Spinner/> :*/}
-            {/*    errorMessage ? <p className="text-red-500 ">{errorMessage}</p> :*/}
-            {/*    <section className="recommended">*/}
-            {/*        <h2>Recommendations</h2>*/}
-            {/*        <ul>*/}
-            {/*            {*/}
-            {/*                recommendedMoviesList.length > 0 && (*/}
-            {/*                    recommendedMoviesList.map(movie => (*/}
-            {/*                        <li key={movie.id} onClick={() => onSelectRecommendedMovie(movie)}>*/}
-            {/*                            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title}/>*/}
-            {/*                            <h3>{movie.title}</h3>*/}
-            {/*                        </li>*/}
-            {/*                    ))*/}
-            {/*                )*/}
-            {/*            }*/}
-            {/*        </ul>*/}
-            {/*    </section>*/}
-            {/*}*/}
+            {
+                isLoading ? <Spinner/> :
+                errorMessage ? <p className="text-red-500 ">{errorMessage}</p> :
+                <section className="recommended">
+                    <h2>Recommendations</h2>
+                    <ul>
+                        {
+                            recommendedMoviesList.length > 0 && (
+                                recommendedMoviesList.map(movie => (
+                                    <li key={movie.id} onClick={() => {
+                                        onSelectRecommendedMovie(movie.id)
+                                        autoScrollUp()
+                                    }}>
+                                        <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title}/>
+                                        <h3>{movie.title}</h3>
+                                    </li>
+                                ))
+                            )
+                        }
+                    </ul>
+                </section>
+            }
         </div>
     )
 }

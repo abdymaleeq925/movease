@@ -156,25 +156,18 @@
   }
 
   .movie-detail {
-    @apply fixed top-35/100 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[calc(100%-200px)] max-h-[90vh] bg-[#0F0D23]/90 backdrop-blur-[60px] shadow-[0_0_80px_20px_#AB8BFF4D] rounded-xl z-2 p-10 flex flex-col mt-30 text-white overflow-y-auto;
+    @apply fixed top-35/100 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[calc(100%-200px)] max-h-[90vh] bg-[#0F0D23]/90 backdrop-blur-[60px] shadow-[0_0_80px_20px_#AB8BFF4D] rounded-xl z-2 p-10 flex flex-col mt-30 text-white overflow-y-auto hide-scrollbar;
 
     & .btn-style{
       @apply flex items-center w-auto gap-2 px-4 py-2 rounded-[12px] bg-[#221F3D];
     }
 
-    & .description-title {
-      @apply text-[#A8B5DB] whitespace-nowrap;
-    }
-    & .description-text {
-      @apply font-semibold text-[#D6C7FF];
+    & .close-icon {
+      @apply absolute top-2 right-2 w-8 cursor-pointer;
     }
 
     & .movie-information {
       @apply w-full flex flex-col gap-10;
-    }
-
-    & .close-icon {
-      @apply absolute top-2 right-2 w-8 cursor-pointer;
     }
 
     & .movie-header {
@@ -199,15 +192,31 @@
       }
     }
 
-    & .movie-data {
-      @apply flex items-start gap-5 m-4;
+    & .movie-description {
+      @apply space-y-4;
+
+      & a {
+        @apply flex items-center px-5 py-3 text-[#121212] bg-gradient-to-r from-[#D6C7FF] to-[#AB8BFF] rounded-[12px] cursor-pointer;
+      }
+
+      & .movie-data {
+        @apply flex items-center gap-5;
+      }
+
+      & .description-title {
+        @apply text-[#A8B5DB] break-words w-30 shrink-0;
+      }
+
+      & .description-text {
+        @apply font-semibold text-[#D6C7FF];
+      }
     }
 
     & .recommended {
       @apply flex flex-col w-full;
 
       & ul {
-        @apply flex flex-row overflow-x-auto gap-5 w-max;
+        @apply flex flex-row overflow-x-auto gap-5 w-max max-w-full;
       }
 
       & ul li {
@@ -222,6 +231,7 @@
         @apply w-[127px] h-[163px] rounded-lg object-cover;
       }
     }
+
     & img {
       @apply rounded-lg h-auto w-2xs;
     }

@@ -37,6 +37,11 @@ const App = () => {
         setIsModalOpen(true);
     }
 
+    const handlePage = (command) => {
+        command === "next" ? setPage(page + 1) : setPage(page - 1);
+        window.scrollTo({ top: 1250, behavior: 'smooth' });
+    }
+
     const fetchMovies = async (query = "") => {
         setIsLoading(true);
         setErrorMessage('');
@@ -139,9 +144,9 @@ const App = () => {
                     }
                 </section>
                 <section className="pagination">
-                    <img src='/arrow-left.svg' alt='Arrow Left' onClick={() => setPage(page - 1)}/>
+                    <img src='/arrow-left.svg' alt='Arrow Left' onClick={() => handlePage("prev")}/>
                     <p>{page}/50</p>
-                    <img src='/arrow-right.svg' alt='Arrow Right' onClick={() => setPage(page + 1)}/>
+                    <img src='/arrow-right.svg' alt='Arrow Right' onClick={() => handlePage("next")}/>
                 </section>
                 {
                     isModalOpen &&
