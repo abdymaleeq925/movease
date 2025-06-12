@@ -83,7 +83,7 @@ const MovieCard = ({ movie: { title, vote_average, poster_path, release_date, ge
     return (
         <div className="movie-card" onClick={() => onClick?.()}>
             <img src={poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : './no-poster.png'} alt={title} />
-            <h3 className="mt-4">{title}</h3>
+            <h3>{title}</h3>
             <div className="content">
                 <div className="rating">
                     <img src="./star.svg" alt="Rating"/>

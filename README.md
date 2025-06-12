@@ -1,12 +1,63 @@
-# React + Vite
+# 📺 MOVEASE - MOVIE SITE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About the project
+Built with React.js for the user interface, Appwrite for backend services, and styled with TailwindCSS, this Movie App lets users browse trending movies, search titles, and explore content using the TMDB API. It features a responsive layout and a sleek, modern design.
 
-Currently, two official plugins are available:
+## Teck Stack
+- React.js
+- Appwrite
+- TailwindCSS
+- Vite
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+👉 **Browse All Movies**: Explore a wide range of movies available on the platform.
 
-## Expanding the ESLint configuration
+👉 **Search Movies**: Easily search for specific movies using a search function.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+👉 **Trending Movies Algorithm**: Displays trending movies based on a dynamic algorithm.
+
+👉 **Modern UI/UX**: A sleek and user-friendly interface designed for a great experience.
+
+👉 **Responsiveness**: Fully responsive design that works seamlessly across devices.
+
+and many more, including code architecture and reusability.
+
+## Quick Start
+
+**Cloning the Repository**
+
+```bash
+git clone https://github.com/abdymaleeq925/movease.git
+cd movease
+
+```
+
+**Installation**
+
+Install the project dependencies using npm:
+
+```bash
+npm install
+```
+
+**Set Up Environment Variables**
+
+Create a new file named `.env.local` in the root of your project and add the following content:
+
+```env
+VITE_TMDB_API_KEY=
+
+VITE_APPWRITE_PROJECT_ID=
+VITE_APPWRITE_DATABASE_ID=
+VITE_APPWRITE_COLLECTION_ID=
+```
+
+Replace the placeholder values with your actual **[TheMovieDatabase API](https://developer.themoviedb.org/reference/intro/getting-started)** and **[Appwrite](https://apwr.dev/JSM050)** credentials.
+
+**Running the Project**
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser to view the project.

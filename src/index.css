@@ -123,7 +123,7 @@
     }
 
     & h3 {
-      @apply text-white font-bold text-base line-clamp-1;
+      @apply text-white font-bold text-base line-clamp-1 mt-4;
     }
 
     & .content {
@@ -167,24 +167,27 @@
     }
 
     & .movie-information {
-      @apply w-full flex flex-col gap-10;
+      @apply w-full flex flex-col gap-4 lg:gap-8;
     }
 
     & .movie-header {
       @apply flex justify-between items-center w-full;
       & h2 {
-        @apply text-4xl;
+        @apply text-2xl xl:text-4xl;
       }
       & img {
-        @apply w-6 h-6;
+        @apply w-4 h-4;
+      }
+      & p {
+        @apply text-sm;
       }
     }
 
     & .movie-poster {
-      @apply flex justify-between;
+      @apply flex flex-col lg:flex-row items-center gap-10 xl:justify-between;
 
       & iframe {
-        @apply w-[700px] h-[300px];
+        @apply w-[360px] h-[200px] md:w-[490px] md:h-[300px] lg:w-[700px];
       }
 
       & img {
@@ -203,6 +206,14 @@
         @apply flex items-center gap-5;
       }
 
+      & .genre-block {
+        @apply w-full flex items-center justify-between;
+      }
+
+      & .genre-list {
+        @apply flex flex-wrap gap-2;
+      }
+
       & .description-title {
         @apply text-[#A8B5DB] break-words w-30 shrink-0;
       }
@@ -216,11 +227,14 @@
       @apply flex flex-col w-full;
 
       & ul {
-        @apply flex flex-row overflow-x-auto gap-5 w-max max-w-full;
+        @apply flex flex-row overflow-x-auto gap-5 w-max max-w-full hide-scrollbar;
       }
 
       & ul li {
         @apply flex-shrink-0 min-w-[230px] flex flex-col items-center justify-center cursor-pointer;
+      }
+      & ul li p {
+        @apply mt-3;
       }
 
       & h2 {
